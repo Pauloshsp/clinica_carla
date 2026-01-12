@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Agenda da Clínica</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.10/index.global.min.js"></script>
+    <style>
+        #calendar { 
+            max-width: 900px; 
+            margin: 40px auto; 
+            background: white; 
+            padding: 20px; 
+            border-radius: 8px; 
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1); /* Isso é o equivalente ao shadow-lg */
+        }
+    </style>
+</head>
+<body class="bg-gray-100">
+    <nav class="bg-blue-800 text-white p-4 mb-4 shadow-lg">
+    <div class="max-w-5xl mx-auto flex justify-between items-center">
+        <div class="flex space-x-6 items-center">
+            <span class="font-bold text-xl">Carla Rejane - Estética | Agenda</span>
+            <a href="admin.html" class="hover:text-blue-200">Financeiro</a>
+            <a href="agenda.html" class="hover:text-blue-200 border-b-2 border-white">Agenda Visual</a>
+        </div>
+        <button onclick="logout()" class="bg-red-500 hover:bg-red-600 px-4 py-1 rounded text-sm">
+            Sair
+        </button>
+    </div>
+</nav>
+
+    <div id="calendar"></div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', async function() {
+            const calendarEl = document.getElementById('calendar');
+            
+            // Buscamos os dados do nosso servidor
+            const resposta = await fetch('http://localhost:3000/agenda');
+            const eventos = await resposta.json();
+
+            const calendar = new FullCalendar.Calendar(calendarEl, {
+                initialView: 'dayGridMonth',
+                locale: 'pt-br',
+                headerToolbar: {
+                    left: 'prev,next today',
+                    center: 'title',
+                    right: 'dayGridMonth,timeGridWeek,timeGridDay'
+                },
+                events: eventos, // Aqui o calendário carrega os dados do banco!
+                eventClick: function(info) {
+                    alert('Paciente: ' + info.event.title);
+                }
+            });
+
+            calendar.render();
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carla Rejane - Estética & Cosmetologia</title>
+    <link rel="shortcut icon" href="./img/logo_carla06.png" type="image/x-icon">
+    <script src="https://cdn.tailwindcss.com"></script>
+     <script>
+        async function enviarAgendamento() {
+            const nomeInput = document.querySelector('input[type="text"]').value;
+            const telefoneInput = document.querySelector('input[type="tel"]').value;
+            
+            // 1. O número do WhatsApp da sua clínica (ex: 55 + DDD + Numero)
+            const NUMERO_DA_CLINICA = "88994602909"; 
+
+            try {
+                // 2. Primeiro, enviamos para o seu Banco de Dados (Node.js)
+                const resposta = await fetch('http://localhost:3000/agendar', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ nome: nomeInput, telefone: telefoneInput })
+                });
+
+                if (resposta.ok) {
+                    // 3. Se salvou no banco, agora preparamos a mensagem do WhatsApp
+                    const mensagem = encodeURIComponent(`Olá! Meu nome é ${nomeInput}. Gostaria de agendar uma avaliação na clínica.`);
+                    const urlWhatsapp = `https://wa.me/${NUMERO_DA_CLINICA}?text=${mensagem}`;
+
+                    // 4. Abre o WhatsApp em uma nova aba
+                    window.open(urlWhatsapp, '_blank');
+                    
+                    alert("Dados salvos e redirecionando para o WhatsApp!");
+                } else {
+                    alert("Erro ao salvar os dados no sistema.");
+                }
+            } catch (erro) {
+                alert("O servidor está desligado. Ligue o 'node server.js' no terminal.");
+            }
+        }
+    </script>
+</head>
+<body class="bg-gray-50 text-gray-800">
+
+    <nav class="bg-white shadow-md p-4 flex justify-between items-center">
+        <h1 class="text-2xl font-bold text-blue-600">BioSaúde</h1>
+        <div class="space-x-4">
+            <a href="#servicos" class="hover:text-blue-500">Serviços</a>
+            <a href="#agendamento" class="bg-blue-600 text-white px-4 py-2 rounded">Agendar</a>
+        </div>
+    </nav>
+
+    <header class="py-20 text-center bg-blue-50">
+        <h2 class="text-4xl font-extrabold mb-4">Cuidando de você com tecnologia.</h2>
+        <p class="text-lg text-gray-600 mb-8">Agende sua avaliação em menos de 1 minuto.</p>
+        <a href="#agendamento" class="bg-green-500 text-white px-8 py-3 rounded-full font-bold hover:bg-green-600 transition">Agendar pelo WhatsApp</a>
+    </header>
+
+    <section id="agendamento" class="max-w-md mx-auto my-12 p-6 bg-white rounded-lg shadow-lg">
+        <h3 class="text-2xl font-bold mb-6 text-center">Solicitar Avaliação</h3>
+        <form class="space-y-4">
+            <div>
+                <label class="block text-sm font-medium">Seu Nome</label>
+                <input type="text" class="w-full border p-2 rounded" placeholder="Ex: João Silva">
+            </div>
+            <div>
+                <label class="block text-sm font-medium">WhatsApp</label>
+                <input type="tel" class="w-full border p-2 rounded" placeholder="(00) 00000-0000">
+            </div>
+            <button type="button" class="w-full bg-blue-600 text-white py-2 rounded font-bold" onclick="enviarAgendamento()">Enviar Pedido</button>
+        </form>
+    </section>
+
+</body>
+</html>
