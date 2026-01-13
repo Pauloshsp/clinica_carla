@@ -7,12 +7,14 @@ app.use(cors());
 app.use(express.json());
 
 // Configuração da conexão com o Banco de Dados
+const { Pool } = require('pg');
+
+// Se existir a variável na nuvem, ele usa ela. Se não, usa o seu localhost (para testes).
+const isProduction = process.env.DATABASE_URL;
+
 const pool = new Pool({
-    user: 'postgres',
-    host: 'localhost',
-    database: 'sistema_carla',
-    password: '1234', // <--- COLOQUE SUA SENHA AQUI
-    port: 5432,
+    connectionString: isProduction || 'postgres://postgres:1234@localhost:5432/sistema_carla',
+    ssl: isProduction ? { rejectUnauthorized: false } : false
 });
 
 // Rota para receber o agendamento do site
