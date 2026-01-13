@@ -37,7 +37,7 @@
             const calendarEl = document.getElementById('calendar');
             
             // Buscamos os dados do nosso servidor
-            const resposta = await fetch('http://localhost:3000/agenda');
+            const resposta = await fetch('https://clinica-carla.onrender.com/agenda');
             const eventos = await resposta.json();
 
             const calendar = new FullCalendar.Calendar(calendarEl, {

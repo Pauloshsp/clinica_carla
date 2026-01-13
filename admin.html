@@ -49,7 +49,7 @@
 
         async function salvarValor(id) {
             const valor = document.getElementById(`input-${id}`).value;
-            await fetch(`http://localhost:3000/pacientes/${id}/valor`, {
+            await fetch(`https://clinica-carla.onrender.com/pacientes/${id}/valor`, {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ valor: valor })
@@ -59,7 +59,7 @@
         }
 
         async function carregarDados() {
-            const resposta = await fetch('http://localhost:3000/pacientes');
+            const resposta = await fetch('https://clinica-carla.onrender.com/pacientes');
             const pacientes = await resposta.json();
             const tabela = document.getElementById('tabela-pacientes');
             let total = 0;
@@ -91,7 +91,7 @@
 
         async function salvarData(id) {
             const dataValue = document.getElementById(`input-data-${id}`).value;
-            await fetch(`http://localhost:3000/pacientes/${id}/data`, {
+            await fetch(`https://clinica-carla.onrender.com/pacientes/${id}/data`, {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ data: dataValue })
@@ -101,7 +101,7 @@
 
         async function excluirPaciente(id) {
             if (confirm("Tem certeza que deseja excluir este paciente?")) {
-                await fetch(`http://localhost:3000/pacientes/${id}`, { method: 'DELETE' });
+                await fetch(`hhttps://clinica-carla.onrender.com/pacientes/${id}`, { method: 'DELETE' });
                 carregarDados(); // Atualiza a lista
             }
         }
