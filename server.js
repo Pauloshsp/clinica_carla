@@ -10,10 +10,15 @@ app.use(express.json());
 const isProduction = process.env.DATABASE_URL;
 
 const pool = new Pool({
-    // Usa a URL do Render se estiver online, ou o seu computador se estiver offline
-    connectionString: isProduction || 'postgres://postgres:1234@localhost:5432/sistema_carla',
-    ssl: isProduction ? { rejectUnauthorized: false } : false
+    connectionString: process.env.DATABASE_URL,
+    ssl: false // O Supabase Pooler já lida com a segurança na porta 5432/6543
 });
+
+// const pool = new Pool({
+//     // Usa a URL do Render se estiver online, ou o seu computador se estiver offline
+//     connectionString: isProduction || 'postgres://postgres:1234@localhost:5432/sistema_carla',
+//     ssl: isProduction ? { rejectUnauthorized: false } : false
+// });
 
 // --- ROTAS DO SISTEMA ---
 
