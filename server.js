@@ -102,6 +102,44 @@ app.delete('/pacientes/:id', async (req, res) => {
     }
 });
 
+// ROTA DE EMERGÊNCIA PARA CRIAR TABELAS
+app.get('/setup-banco', async (req, res) => {
+    try {
+        // Cria a tabela de pacientes
+        await pool.query(`
+            CREATE TABLE IF NOT EXISTS pacientes (
+                id SERIAL PRIMARY KEY,
+                nome VARCHAR(100) NOT NULL,
+                telefone VARCHAR(20) NOT NULL,
+                valor_consulta DECIMAL(10,2),
+                data_consulta TIMESTAMP,
+                data_cadastro TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+            );
+        `);
+
+        // Cria a tabela de usuários
+        await pool.query(`
+            CREATE TABLE IF NOT EXISTS usuarios (
+                id SERIAL PRIMARY KEY,
+                email VARCHAR(100) UNIQUE NOT NULL,
+                senha VARCHAR(100) NOT NULL
+            );
+        `);
+
+        // Cria o seu usuário de teste (Mude o email e senha aqui!)
+        await pool.query(`
+            INSERT INTO usuarios (email, senha) 
+            VALUES ('admin@teste.com', '123456')
+            ON CONFLICT (email) DO NOTHING;
+        `);
+
+        res.send("<h1>Tabelas criadas com sucesso!</h1>");
+    } catch (err) {
+        console.error(err);
+        res.status(500).send("Erro ao criar tabelas: " + err.message);
+    }
+});
+
 // --- INICIALIZAÇÃO DO SERVIDOR ---
 // O Render define a porta automaticamente. Se não houver, usa a 10000.
 const PORT = process.env.PORT || 10000;
