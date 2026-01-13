@@ -1,4 +1,5 @@
-require('dns').setDefaultResultOrder('ipv4first');
+const dns = require('dns');
+dns.setDefaultResultOrder('ipv4first');
 
 const express = require('express');
 const { Pool } = require('pg');
@@ -13,7 +14,7 @@ const isProduction = process.env.DATABASE_URL;
 
 const pool = new Pool({
     connectionString: process.env.DATABASE_URL,
-    ssl: false // O Supabase Pooler já lida com a segurança na porta 5432/6543
+    ssl: { rejectUnauthorized: false }
 });
 
 // const pool = new Pool({
