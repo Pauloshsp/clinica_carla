@@ -15,27 +15,7 @@
         </button>
     </div>
 
-    <script>
-        async function fazerLogin() {
-            const email = document.getElementById('email').value;
-            const senha = document.getElementById('senha').value;
-
-            const resposta = await fetch('https://clinica-carla.onrender.com/login', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ email, senha })
-            });
-
-            const dados = await resposta.json();
-
-            if (dados.autorizado) {
-                // Salva que o usuário está logado no navegador
-                localStorage.setItem('logado', 'true');
-                window.location.href = 'admin.html';
-            } else {
-                alert(dados.erro);
-            }
-        }
-    </script>
+    <script src="./configs.js"></script>
+    <script src="./login.js"></script>
 </body>
 </html>

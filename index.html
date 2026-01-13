@@ -6,39 +6,6 @@
     <title>Carla Rejane - Estética & Cosmetologia</title>
     <link rel="shortcut icon" href="./img/logo_carla06.png" type="image/x-icon">
     <script src="https://cdn.tailwindcss.com"></script>
-     <script>
-        async function enviarAgendamento() {
-            const nomeInput = document.querySelector('input[type="text"]').value;
-            const telefoneInput = document.querySelector('input[type="tel"]').value;
-            
-            // 1. O número do WhatsApp da sua clínica (ex: 55 + DDD + Numero)
-            const NUMERO_DA_CLINICA = "88994602909"; 
-
-            try {
-                // 2. Primeiro, enviamos para o seu Banco de Dados (Node.js)
-                const resposta = await fetch('https://clinica-carla.onrender.com/agendar', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ nome: nomeInput, telefone: telefoneInput })
-                });
-
-                if (resposta.ok) {
-                    // 3. Se salvou no banco, agora preparamos a mensagem do WhatsApp
-                    const mensagem = encodeURIComponent(`Olá! Meu nome é ${nomeInput}. Gostaria de agendar uma avaliação na clínica.`);
-                    const urlWhatsapp = `https://wa.me/${NUMERO_DA_CLINICA}?text=${mensagem}`;
-
-                    // 4. Abre o WhatsApp em uma nova aba
-                    window.open(urlWhatsapp, '_blank');
-                    
-                    alert("Dados salvos e redirecionando para o WhatsApp!");
-                } else {
-                    alert("Erro ao salvar os dados no sistema.");
-                }
-            } catch (erro) {
-                alert("O servidor está desligado. Ligue o 'node server.js' no terminal.");
-            }
-        }
-    </script>
 </head>
 <body class="bg-gray-50 text-gray-800">
 
@@ -71,5 +38,7 @@
         </form>
     </section>
 
+    <script src="./configs.js"></script>
+    <script src="./scripts.js"></script>
 </body>
 </html>

@@ -32,30 +32,7 @@
 
     <div id="calendar"></div>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', async function() {
-            const calendarEl = document.getElementById('calendar');
-            
-            // Buscamos os dados do nosso servidor
-            const resposta = await fetch('https://clinica-carla.onrender.com/agenda');
-            const eventos = await resposta.json();
-
-            const calendar = new FullCalendar.Calendar(calendarEl, {
-                initialView: 'dayGridMonth',
-                locale: 'pt-br',
-                headerToolbar: {
-                    left: 'prev,next today',
-                    center: 'title',
-                    right: 'dayGridMonth,timeGridWeek,timeGridDay'
-                },
-                events: eventos, // Aqui o calendário carrega os dados do banco!
-                eventClick: function(info) {
-                    alert('Paciente: ' + info.event.title);
-                }
-            });
-
-            calendar.render();
-        });
-    </script>
+    <script src="./configs.js"></script>
+    <script src="./agenda.js"></script>
 </body>
 </html>
